@@ -21,20 +21,6 @@ class Triangle {
                 && side3 + side1 > side2;
     }
 
-    void out() {
-        if(this.valid) {
-            System.out.println("Это треугольник");
-            System.out.print("Первая сторона:");
-            System.out.println(side1);
-            System.out.print("Вторая сторона:");
-            System.out.println(side2);
-            System.out.print("Третья сторона:");
-            System.out.println(side3);
-        } else {
-            System.out.println("Это не треугольник");
-        }
-    }
-
     double area() {
         double S = 0;
         if(this.valid) {

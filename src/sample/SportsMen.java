@@ -11,28 +11,28 @@ public class SportsMen {
         this.k = k;
     }
 
-    void getSum() {
+    double[] getSum() {
+        double array[] = new double[2];
         double temp = this.n;
-        double sum = 0;
+        double sum1 = 0;
+        double sum2 = 0;
         for (int i = 1; i < this.k; i++) {
             temp = temp + temp * this.m/100;
-            sum += temp;
+            sum1 += temp;
         }
-        sum = this.n + sum;
-        System.out.print("Суммарный путь (цикл for): ");
-        System.out.println(sum);
+        sum1 = this.n + sum1;
 
         temp = this.n;
-        sum = 0;
         int count = this.k;
         while (count != 1) {
             temp = temp + temp * this.m/100;
-            sum += temp;
+            sum2 += temp;
             count--;
         }
-        sum = this.n + sum;
-        System.out.print("Суммарный путь (цикл while): ");
-        System.out.println(sum);
+        sum2 = this.n + sum2;
+        array[0] = sum1;
+        array[1] = sum2;
+        return array;
     }
 
 }
