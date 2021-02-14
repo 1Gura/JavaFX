@@ -91,7 +91,7 @@ public class Main extends Application {
                 }
             }
         }
-        return ("Массив состоит\nтолько из\nположительны или отрицательных чисел.");
+        return ("Массив состоит\nтолько из\nположительны или\nотрицательных чисел.");
     }
     
     
@@ -103,7 +103,7 @@ public class Main extends Application {
         Label task1Label1 = new Label("Первая сторона");
         Label task1Label2 = new Label("Вторая сторона");
         Label task1Label3 = new Label("Третья сторона");
-        Label label = new Label();
+        Label label = new Label("Ответ:\n");
         TextField task1textField1 = new TextField();
         TextField task1textField2 = new TextField();
         TextField task1textField3 = new TextField();
