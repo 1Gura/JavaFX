@@ -1,25 +1,25 @@
 package sample;
 
+import org.apache.logging.log4j.*;
 import javafx.application.Application;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
-import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import jdk.jfr.Event;
-import javafx.scene.control.Label;
+
+import java.io.*;
+import java.util.Scanner;
+
 
 public class Main extends Application {
 
+    static final Logger Logger = LogManager.getLogger(Main.class);
     boolean tryParseInt(String... value) {
         try {
             for (String str:value) {
@@ -36,44 +36,44 @@ public class Main extends Application {
         switch (month) {
             case 1 : {
                 return  ("Январь : 31 день");
-            } 
+            }
             case 2 : {
                 if(((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0)) {
                     return("Февраль : 29 день");
                 } else {
                     return("Февраль : 28 день");
                 }
-            } 
+            }
             case 3 : {
                 return("Март : 31 день");
-            } 
+            }
             case 4 : {
                 return("Апрель : 30 день");
-            } 
+            }
             case 5 : {
                 return("Май : 31 день");
-            } 
+            }
             case 6 : {
                 return("Июнь : 30 день");
-            } 
+            }
             case 7 : {
                 return("Июль : 31 день");
-            } 
+            }
             case 8 : {
                 return("Август : 31 день");
-            } 
+            }
             case 9 : {
                 return("Сентябрь : 30 день");
-            } 
+            }
             case 10 : {
                 return("Октябрь : 31 день");
-            } 
+            }
             case 11 : {
                 return("Ноябрь : 30 день");
-            } 
+            }
             case 12 : {
                 return("Декабрь : 31 день");
-            } 
+            }
             default:
                 return("Введите номер месяца от 1 до 12");
         }
@@ -93,11 +93,36 @@ public class Main extends Application {
         }
         return ("Массив состоит\nтолько из\nположительны или\nотрицательных чисел.");
     }
-    
-    
+
+    static String updateTextField() {
+        String string = "";
+        try {
+            File file = new File("../infolog.log");
+            if(!file.exists()) {
+                file.createNewFile();
+                PrintWriter printWriter = new PrintWriter(file);
+                printWriter.close();
+            }
+            Scanner scanner = new Scanner(file);
+            while (scanner.hasNextLine()) {
+                string = scanner.nextLine();
+           }
+        } catch (Exception e) {
+            Logger.error("Не удалось считать из файла");
+        }
+ return string;
+}
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+
+        //Создал текстовое поле для лога
+        TextArea textArea = new TextArea("Привет мир!");
+        textArea.setPrefColumnCount(50);
+        textArea.setPrefRowCount(20);
+        FlowPane root5 = new FlowPane(Orientation.VERTICAL,10 ,10,
+                textArea
+        );
         /*Задание №1*/
         Label task1 = new Label("Задание №1");
         Label task1Label1 = new Label("Первая сторона");
@@ -112,6 +137,7 @@ public class Main extends Application {
         button1.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
+                Logger.info("Была нажата кнопка №1");
                 boolean flag = tryParseInt(task1textField1.getText(),task1textField2.getText(),task1textField3.getText());
                 if(flag) {
                     if(task1textField1.getText() != "" && task1textField2.getText() != "" && task1textField3.getText() != "") {
@@ -131,6 +157,8 @@ public class Main extends Application {
                 } else {
                     label.setText("Поля должны быть целыми числами!");
                 }
+                String str = updateTextField();
+                textArea.setText(str);
             }
         });
 
@@ -144,6 +172,7 @@ public class Main extends Application {
         button2.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
+                Logger.info("Была нажата кнопка №2");
                 boolean flag = tryParseInt(task2textField1.getText(),task2textField2.getText());
                 if(flag) {
                     if(task2textField1.getText() != "" && task2textField2.getText() != "") {
@@ -247,12 +276,23 @@ public class Main extends Application {
                 task4textField1,
                 button4);
 
+
         HBox hBox = new HBox(root, root2, root3, root4);
+        HBox hBox2 = new HBox(root5);
+        TabPane tabPane = new TabPane();
+        Tab tab1 = new Tab("Основная программа", hBox);
+        Tab tab2 = new Tab("Логи", hBox2);
+        tabPane.getTabs().add(tab1);
+        tabPane.getTabs().add(tab2);
+        VBox vBox = new VBox(tabPane);
         hBox.setPadding(new Insets(10));
         hBox.setSpacing(30);
         hBox.setMinWidth(220);
+        hBox2.setPadding(new Insets(10));
+        hBox2.setSpacing(30);
+        hBox2.setMinWidth(220);
 
-        Scene scene = new Scene(hBox, 850, 400);
+        Scene scene = new Scene(vBox, 850, 400);
 
         primaryStage.setScene(scene);
         primaryStage.setTitle("Лабораторняа №1 Гура Илья Сергеевич");
