@@ -16,6 +16,31 @@ import javafx.stage.Stage;
 import java.io.*;
 import java.util.Scanner;
 
+/** Выполняет решение следующих задач:.
+ *
+ *<p>
+ *     1) Даны три положительных числа а, Ь, с. Проверить, будут ли
+ *     они сторонами треугольника. Если да, то вычислить площадь
+ *     этого треугольника.
+ * </p>
+ * <p>
+ *     2) Составить программу, которая по заданным году и номеру
+ *     месяца т определяет количество дней в этом месяце.
+ * </p>
+ * <p>
+ *     3) Начав тренировки, спортсмен в первый день пробежал n км.
+ *     Каждый день он увеличивал дневную норму на m% нормы
+ *     предыдущего дня. Какой суммарный путь пробежит спортсмен
+ *     за k дней?
+ * </p>
+ * <p>
+ *     Дана последовательность целых чисел а1,а2,..., аn. Выяснить,
+ *     какое число встречается раньше — положительное или
+ *     отрицательное.
+ * </p>
+ * @version 1.0
+ * @author Гура Илья
+ */
 
 public class Main extends Application {
 
@@ -82,16 +107,14 @@ public class Main extends Application {
     static String searchNumber(int[] nums) {
         if(nums.length > 0) {
             for(int i = 0; i<nums.length - 1; i++) {
-                if(nums[i] < 0 && nums[i+1] > 0) {
+                if(nums[i] < 0) {
                     return ("Первым встречается отрицательное");
-
-                } else if(nums[i] > 0 && nums[i+1] < 0) {
-
+                } else if(nums[i] > 0) {
                     return ("Первым встречается положительное");
                 }
             }
         }
-        return ("Массив состоит\nтолько из\nположительны или\nотрицательных чисел.");
+        return ("Массив состоит\nтолько из 0");
     }
 
     static String updateTextField() {
@@ -151,10 +174,13 @@ public class Main extends Application {
                         } else  {
                             label.setText("Площадь треугольника равна: " + String.format("%.2f",area));
                         }
+                        Logger.info("Выполнение первого задания завершилось успехом.");
                     } else {
+                        Logger.warn("Были заполнены не все поля для задания №1");
                         label.setText("Заполнитие все поля!");
                     }
                 } else {
+                    Logger.warn("Попытка ввести в поля не числовые значения");
                     label.setText("Поля должны быть целыми числами!");
                 }
                 String str = updateTextField();
@@ -179,9 +205,11 @@ public class Main extends Application {
                         int year = Integer.parseInt(task2textField1.getText());
                         int month = Integer.parseInt(task2textField2.getText());
                         label.setText(numberDayOfMonth(year, month));
+                        Logger.info("Задание №2 завершилось успехом.");
                     }
                 } else {
                     label.setText("Поля должны быть целыми числами!");
+                    Logger.warn("Попытка ввести нецелочисленные значения в задание №2");
                 }
             }
         });
@@ -198,6 +226,7 @@ public class Main extends Application {
         button3.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
+                Logger.info("Была нажата кнопка №3");
                 boolean flag = tryParseInt(task3textField1.getText(),task3textField2.getText(), task3textField3.getText());
                 if(flag) {
                     if(task3textField1.getText() != "" && task3textField2.getText() != "" && task3textField3.getText() != "") {
@@ -208,9 +237,11 @@ public class Main extends Application {
                         double arrayDouble[] = sportsMen.getSum();
                         label.setText("Суммарный путь (цикл for)" + String.format("%.2f",arrayDouble[0])  + "\n"
                                 + "Суммарный путь (цикл while):" + String.format("%.2f",arrayDouble[1]));
+                        Logger.info("Задание №3 завершилось успехом.");
                     }
                 } else {
                     label.setText("Поля должны быть целыми числами!");
+                    Logger.warn("Попытка ввести нецелочисленные значения в задание №3");
                 }
             }
         });
@@ -224,6 +255,7 @@ public class Main extends Application {
         button4.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
+                Logger.info("Была нажата кнопка №4");
                 boolean flag = tryParseInt(task4textField1.getText().split(" "));
                 if(flag) {
                     if(task4textField1.getText() != "") {
@@ -234,9 +266,11 @@ public class Main extends Application {
                             numbers[i] = Integer.parseInt(numbersString[i]);
                         }
                         label.setText(searchNumber(numbers));
+                        Logger.info("Задание №4 завершилось успехом.");
                     }
                 } else {
                     label.setText("Поля должны быть целыми числами!");
+                    Logger.warn("Попытка ввести нецелочисленные значения в задание №3");
                 }
             }
         });
