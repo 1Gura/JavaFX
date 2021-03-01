@@ -44,7 +44,7 @@ import java.util.Scanner;
 
 public class Main extends Application {
 
-    static final Logger Logger = LogManager.getLogger(Main.class);
+    //static final //Logger //Logger = LogManager.get//Logger(Main.class);
     boolean tryParseInt(String... value) {
         try {
             for (String str:value) {
@@ -117,28 +117,42 @@ public class Main extends Application {
         return ("Массив состоит\nтолько из 0");
     }
 
-    static String updateTextField() {
-        String string = "";
+    private void updateTextField(TextArea textArea) {
+//        try {
+//            StringBuilder str = new StringBuilder();
+//            Scanner scanner = new Scanner("../notes1.txt");
+//            while(true) {
+//                assert scanner != null;
+//                if (!scanner.hasNextLine()) break;
+//                str.append(scanner.nextLine()).append("\n");
+//            }
+//            textArea.setText(str.toString());
+//        } catch (Exception e) {
+//            System.out.println("Файл не был найден");
+//        }
+//
+        //return str;
         try {
-            File file = new File("../infolog.log");
-            if(!file.exists()) {
+            StringBuilder str = new StringBuilder();
+            File file = new File("C:\\Users\\Илья\\Desktop\\~~~3курс 2 сем\\~лабы\\ИСИС\\2\\JavaFX\\infolog.log");
+            if (!file.exists()) {
                 file.createNewFile();
                 PrintWriter printWriter = new PrintWriter(file);
                 printWriter.close();
             }
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
-                string = scanner.nextLine();
-           }
+                str.append(scanner.nextLine());
+                str.append("\n");
+            }
+            textArea.setText(str.toString());
         } catch (Exception e) {
-            Logger.error("Не удалось считать из файла");
+            //Logger.error("Не удалось считать из файла");
         }
- return string;
-}
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-
         //Создал текстовое поле для лога
         TextArea textArea = new TextArea("Привет мир!");
         textArea.setPrefColumnCount(50);
@@ -146,6 +160,9 @@ public class Main extends Application {
         FlowPane root5 = new FlowPane(Orientation.VERTICAL,10 ,10,
                 textArea
         );
+        //updateTextField(textArea);
+//        textArea.setText(str);
+
         /*Задание №1*/
         Label task1 = new Label("Задание №1");
         Label task1Label1 = new Label("Первая сторона");
@@ -160,7 +177,8 @@ public class Main extends Application {
         button1.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                Logger.info("Была нажата кнопка №1");
+                //Logger.info("Была нажата кнопка №1");
+                updateTextField(textArea);
                 boolean flag = tryParseInt(task1textField1.getText(),task1textField2.getText(),task1textField3.getText());
                 if(flag) {
                     if(task1textField1.getText() != "" && task1textField2.getText() != "" && task1textField3.getText() != "") {
@@ -174,17 +192,15 @@ public class Main extends Application {
                         } else  {
                             label.setText("Площадь треугольника равна: " + String.format("%.2f",area));
                         }
-                        Logger.info("Выполнение первого задания завершилось успехом.");
+                        //Logger.info("Выполнение первого задания завершилось успехом.");
                     } else {
-                        Logger.warn("Были заполнены не все поля для задания №1");
+                        //Logger.warn("Были заполнены не все поля для задания №1");
                         label.setText("Заполнитие все поля!");
                     }
                 } else {
-                    Logger.warn("Попытка ввести в поля не числовые значения");
+                    //Logger.warn("Попытка ввести в поля не числовые значения");
                     label.setText("Поля должны быть целыми числами!");
                 }
-                String str = updateTextField();
-                textArea.setText(str);
             }
         });
 
@@ -198,18 +214,18 @@ public class Main extends Application {
         button2.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                Logger.info("Была нажата кнопка №2");
+                //Logger.info("Была нажата кнопка №2");
                 boolean flag = tryParseInt(task2textField1.getText(),task2textField2.getText());
                 if(flag) {
                     if(task2textField1.getText() != "" && task2textField2.getText() != "") {
                         int year = Integer.parseInt(task2textField1.getText());
                         int month = Integer.parseInt(task2textField2.getText());
                         label.setText(numberDayOfMonth(year, month));
-                        Logger.info("Задание №2 завершилось успехом.");
+                        //Logger.info("Задание №2 завершилось успехом.");
                     }
                 } else {
                     label.setText("Поля должны быть целыми числами!");
-                    Logger.warn("Попытка ввести нецелочисленные значения в задание №2");
+                    //Logger.warn("Попытка ввести нецелочисленные значения в задание №2");
                 }
             }
         });
@@ -226,7 +242,7 @@ public class Main extends Application {
         button3.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                Logger.info("Была нажата кнопка №3");
+                //Logger.info("Была нажата кнопка №3");
                 boolean flag = tryParseInt(task3textField1.getText(),task3textField2.getText(), task3textField3.getText());
                 if(flag) {
                     if(task3textField1.getText() != "" && task3textField2.getText() != "" && task3textField3.getText() != "") {
@@ -237,11 +253,11 @@ public class Main extends Application {
                         double arrayDouble[] = sportsMen.getSum();
                         label.setText("Суммарный путь (цикл for)" + String.format("%.2f",arrayDouble[0])  + "\n"
                                 + "Суммарный путь (цикл while):" + String.format("%.2f",arrayDouble[1]));
-                        Logger.info("Задание №3 завершилось успехом.");
+                        //Logger.info("Задание №3 завершилось успехом.");
                     }
                 } else {
                     label.setText("Поля должны быть целыми числами!");
-                    Logger.warn("Попытка ввести нецелочисленные значения в задание №3");
+                    //Logger.warn("Попытка ввести нецелочисленные значения в задание №3");
                 }
             }
         });
@@ -255,7 +271,7 @@ public class Main extends Application {
         button4.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                Logger.info("Была нажата кнопка №4");
+                //Logger.info("Была нажата кнопка №4");
                 boolean flag = tryParseInt(task4textField1.getText().split(" "));
                 if(flag) {
                     if(task4textField1.getText() != "") {
@@ -266,11 +282,11 @@ public class Main extends Application {
                             numbers[i] = Integer.parseInt(numbersString[i]);
                         }
                         label.setText(searchNumber(numbers));
-                        Logger.info("Задание №4 завершилось успехом.");
+                        //Logger.info("Задание №4 завершилось успехом.");
                     }
                 } else {
                     label.setText("Поля должны быть целыми числами!");
-                    Logger.warn("Попытка ввести нецелочисленные значения в задание №3");
+                    //Logger.warn("Попытка ввести нецелочисленные значения в задание №3");
                 }
             }
         });
